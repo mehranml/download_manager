@@ -1,0 +1,19 @@
+# Use the same base image
+FROM python:3.10
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the project files
+COPY . /app/
+
+# Create and activate a virtual environment
+RUN python -m venv /app/venv
+RUN /bin/bash -c "source venv/bin/activate && pip install --upgrade pip"
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Ensure Celery is installed
+RUN python -m pip show celery || (echo "Celery is not installed!" && exit 1)
+
+# Run Celery worker
+CMD ["python", "-m", "celery", "-A", "download_manager", "worker", "--loglevel=info", '--concurrency=1']

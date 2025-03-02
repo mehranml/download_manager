@@ -1,0 +1,19 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Download</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h2>Add Download</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="url">Enter URL:</label>
+        <input type="url" name="url" required>
+        <button type="submit">Download</button>
+    </form>
+    <a href="{% url 'downloads_list' %}">View Downloads</a>
+</body>
+</html>
